@@ -373,12 +373,18 @@ class Widget:
         """
         if self.isVisible():
             if self.isModalFocusable():
-                self.real_widget.requestModalFocus()
+                focus_handler = self.real_widget._getFocusHandler()
+                if focus_handler:
+                    focus_handler.pushModal(
+                        self.real_widget, focus_handler.getModalMouseInputFocused()
+                    )
 
     def releaseModalFocus(self):
         """Release modal focus."""
         if self.isModalFocused():
-            self.real_widget.releaseModalFocus()
+            focus_handler = self.real_widget._getFocusHandler()
+            if focus_handler and focus_handler.getModalFocused() == self.real_widget:
+                focus_handler.popModal()
 
     def isModalMouseInputFocusable(self):
         """Check if a widget is modal mouse input focusable.
@@ -414,12 +420,21 @@ class Widget:
         """
         if self.isVisible():
             if self.isModalMouseInputFocusable():
-                self.real_widget.requestModalMouseInputFocus()
+                focus_handler = self.real_widget._getFocusHandler()
+                if focus_handler:
+                    focus_handler.pushModal(
+                        focus_handler.getModalFocused(), self.real_widget
+                    )
 
     def releaseModalMouseInputFocus(self):
         """Release modal mouse input focus."""
         if self.isModalMouseInputFocused():
-            self.real_widget.releaseModalMouseInputFocus()
+            focus_handler = self.real_widget._getFocusHandler()
+            if (
+                focus_handler
+                and focus_handler.getModalMouseInputFocused() == self.real_widget
+            ):
+                focus_handler.popModal()
 
     def match(self, **kwargs):
         """Match the widget against a list of key-value pairs.

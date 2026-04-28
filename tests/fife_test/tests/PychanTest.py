@@ -210,16 +210,16 @@ class ModalTest(PyChanExample):
         self.widget.show()
 
     def requestModal(self):
-        self.widget.real_widget.requestModalFocus()
+        self.widget.requestModalFocus()
 
     def releaseModal(self):
-        self.widget.real_widget.releaseModalFocus()
+        self.widget.releaseModalFocus()
 
     def requestMouseModal(self):
-        self.widget.real_widget.requestModalMouseInputFocus()
+        self.widget.requestModalMouseInputFocus()
 
     def releaseMouseModal(self):
-        self.widget.real_widget.releaseModalMouseInputFocus()
+        self.widget.releaseModalMouseInputFocus()
 
 
 class DynamicExample(PyChanExample):

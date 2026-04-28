@@ -21,9 +21,19 @@ namespace fcn {
 
 	class Font;
 	class Image;
+	class Widget;
+	class FocusHandler;
 	class ActionListener;
 	class MouseListener;
 	class KeyListener;
+
+	class FocusHandler {
+	public:
+		Widget* getModalFocused() const;
+		Widget* getModalMouseInputFocused() const;
+		void pushModal(Widget* focusOwner, Widget* mouseOwner = nullptr);
+		void popModal();
+	};
 
 	%nodefaultctor;
 	class Graphics {
@@ -181,12 +191,9 @@ namespace fcn {
 		virtual void setTabOutEnabled(bool enabled);
 		virtual bool isModalFocusable() const;
 		virtual bool isModalMouseInputFocusable() const;
-		virtual void requestModalFocus();
-		virtual void requestModalMouseInputFocus();
-		virtual void releaseModalFocus();
-		virtual void releaseModalMouseInputFocus();
 		virtual bool isModalFocused() const;
 		virtual bool isModalMouseInputFocused() const;
+		virtual FocusHandler* _getFocusHandler();
 		virtual Widget *getWidgetAt(int32_t x, int32_t y);
 		virtual void moveToTop(Widget* widget) { }
 		virtual void moveToBottom(Widget* widget) { }
